@@ -1,11 +1,7 @@
 # school_data.py
 # AUTHOR NAME Remi Oyediji
-#
+# SINCE June 4, 2024
 # A terminal-based application for computing and printing statistics based on given input.
-# You must include the main listed below. You may add your own additional classes, functions, variables, etc. 
-# You may import any modules from the standard Python library.
-# Remember to include docstrings and comments.
-
 
 import numpy as np
 from given_data import year_2013, year_2014, year_2015, year_2016, year_2017, year_2018, year_2019, year_2020, year_2021, year_2022
@@ -28,24 +24,26 @@ school_names = ['Centennial High School', 'Robert Thirsk School', 'Louise Dean S
 schools = dict(zip(school_names,school_codes))
 
 
-def school_metadata(school_codes, school_names, index):
+def school_metadata(school_names, school_codes, index):
         """
-        Prints the school name and corresponding school code
+        Prints the school name and corresponding school code based on user input
 
         Parameters:
-        school_names - A list of school names available withing provided data
-        school_codes - A list of corresponding codes to the school name
-        index - Converted index of inputed school code or school name
+        school_names (str) - A list of school names 
+        school_codes (str) - A list of corresponding school codes 
+        index (int) - Index of input school code or school name
         """
         print(f"School Name: {school_names[index]}, School Code: {school_codes[index]}")
 
 def get_school_stats(data, index):
         """
-        Calculates and prints enrollment statistics specific to the school name or school code provided by the user
+        Calculates and prints enrollment statistics specific to the school name or school code provided by the user.
+        It implements some of the analytical methods / functions provided in numpy and returns result in an 
+        integer datatype format.
 
         Parameters: 
-        data -  Reeshaped array
-        index - Converted index of inputed school code or school name
+        data (int)-  Reshaped array
+        index (int) - Converted index of inputed school code or school name
         """
         print(f"Mean enrollment for Grade 10: {int(np.nanmean(data[:,index,0]))}")
         print(f"Mean enrollment for Grade 11: {int(np.nanmean(data[:,index,1]))}")
@@ -64,13 +62,13 @@ def get_school_stats(data, index):
         print(f"Total enrollment for 2022: {int(np.nansum(data[9,index,:]))}")
         print(f"Total ten year enrollment: {int(np.nansum(data[:,index,:]))}")
         print(f"Mean total enrollment over 10 years: {int(np.nansum(data[:,index,:])/10)}")
-
+        
 def get_gen_stats(data):
         """
-        Calculate and prints the general statistics all the data provided
+        Calculates and prints the general statistics of enrollments
 
         Parameters:
-        data - Reshaped array
+        data (int) - Reshaped array
         """
         print(f"Mean enrollment in 2013: {int(np.nanmean(data[0,:,:]))}")
         print(f"Mean enrollment in 2022: {int(np.nanmean(data[-1,:,:]))}")
@@ -100,17 +98,25 @@ def main():
     if(school_input not in school_codes):
         school_input = schools[school_input]
     index = school_codes.index(school_input)
-   
-    # Print Stage 2 requirements here
+
+    # Creates a condition for finding and determining the median enrollments over 500
+    enrollments = data[:,index,:]
+    over_500_enrollments = enrollments[enrollments > 500]
+    if over_500_enrollments.size == 0:
+        over_500_message = "No enrollments over 500."
+    else:
+        median_over_500 = int(np.floor(np.nanmedian(over_500_enrollments)))
+
+    # Calls the defined function for printing requested school information and enrollment statistics
     print("\n***Requested School Statistics***\n")
     school_metadata(school_names, school_codes, index)
     get_school_stats(data, index)
-
-    # Print Stage 3 requirements here
+    print(over_500_message if over_500_enrollments.size == 0 else f"For all enrollments over 500, the median value was: {median_over_500}")
+    
+    # Calls the defined function for printing general enrollment statistics 
     print("\n***General Statistics for All Schools***\n")
     get_gen_stats(data)
 
-    print(over_500_message if over_500_enrollments.size == 0 else f"For all enrollments over 500, the median value was: {median_over_500}")
 
 if __name__ == '__main__':
     main()
