@@ -10,9 +10,11 @@
 import numpy as np
 from given_data import year_2013, year_2014, year_2015, year_2016, year_2017, year_2018, year_2019, year_2020, year_2021, year_2022
 
-# Declare any global variables needed to store the data here
+
 
 print("\n***ENSF 692 School Enrollment Statistics***\n")
+
+# Global variables used to store data
 years = [year_2013, year_2014, year_2015, year_2016, year_2017, year_2018, year_2019, year_2020, year_2021, year_2022]
 data = np.array(years).reshape(10, 20, 3)
 school_codes = ['1224','1679','9626','9806','9813','9815','9816','9823','9825','9826','9829','9830','9836','9847','9850','9856','9857','9858','9860','9865']
@@ -22,28 +24,28 @@ school_names = ['Centennial High School', 'Robert Thirsk School', 'Louise Dean S
                 'Bowness High School', 'Lord Beaverbrook High School', 'Jack James High School', 'Sir Winston Churchill High School', 
                 'Dr. E. P. Scarlett High School', 'John G Diefenbaker High School', 'Lester B. Pearson High School']
 
-
+# Creates a dictionary of the school names and school codes and stores it in a variable
 schools = dict(zip(school_names,school_codes))
 
-# You may add your own additional classes, functions, variables, etc.
-def school_metadata(school_names, school_codes, index):
+
+def school_metadata(school_codes, school_names, index):
         """
         Prints the school name and corresponding school code
 
         Parameters:
-        school_names -
-        school_codes - 
-        index - 
+        school_names - A list of school names available withing provided data
+        school_codes - A list of corresponding codes to the school name
+        index - Converted index of inputed school code or school name
         """
         print(f"School Name: {school_names[index]}, School Code: {school_codes[index]}")
 
 def get_school_stats(data, index):
         """
-        Calculates and prints the statistics specific to the School Name or School Code provided by the user
+        Calculates and prints enrollment statistics specific to the school name or school code provided by the user
 
         Parameters: 
-        Data -  Reeshaped array
-        Index - Index of inputed school code or school name
+        data -  Reeshaped array
+        index - Converted index of inputed school code or school name
         """
         print(f"Mean enrollment for Grade 10: {int(np.nanmean(data[:,index,0]))}")
         print(f"Mean enrollment for Grade 11: {int(np.nanmean(data[:,index,1]))}")
@@ -68,7 +70,7 @@ def get_gen_stats(data):
         Calculate and prints the general statistics all the data provided
 
         Parameters:
-        Data - Reshaped Array
+        data - Reshaped array
         """
         print(f"Mean enrollment in 2013: {int(np.nanmean(data[0,:,:]))}")
         print(f"Mean enrollment in 2022: {int(np.nanmean(data[-1,:,:]))}")
@@ -78,15 +80,11 @@ def get_gen_stats(data):
 
 def main():
      
-    # Print Stage 1 requirements here
+    # Prints the shape and dimension of the array
     print("Shape of full data array:", data.shape)
     print("Dimensions of full data array:", data.ndim)
 
-    # Prompt for user input
-    """
-    Raises:
-    Valueerror if the school name and code is not valid 
-    """
+    # Prompt for user input and raises valueerror if the school name and code is not valid
     while True:
         school_input= input("Enter the high school name or school code: ")
         try: 
