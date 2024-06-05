@@ -82,7 +82,7 @@ def main():
     print("Shape of full data array:", data.shape)
     print("Dimensions of full data array:", data.ndim)
 
-    # Prompt for user input and raises valueerror if the school name and code is not valid
+    # Prompts for user input and raises valueerror if the school name and code is not valid
     while True:
         school_input= input("Enter the high school name or school code: ")
         try: 
